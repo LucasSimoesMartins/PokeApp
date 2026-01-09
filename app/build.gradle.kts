@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.devtools.ksp)
 }
 
 android {
@@ -39,6 +40,10 @@ android {
 }
 
 dependencies {
+    ksp(libs.glide.compiler)
+    implementation(libs.glide.core)
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.converter.gson)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)

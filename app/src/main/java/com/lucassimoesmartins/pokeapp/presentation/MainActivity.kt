@@ -1,9 +1,10 @@
-package com.lucassimoesmartins.pokeapp
+package com.lucassimoesmartins.pokeapp.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.lucassimoesmartins.pokeapp.R
 import com.lucassimoesmartins.pokeapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

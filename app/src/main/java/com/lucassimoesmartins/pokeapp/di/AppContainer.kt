@@ -1,0 +1,23 @@
+package com.lucassimoesmartins.pokeapp.di
+
+import com.lucassimoesmartins.pokeapp.data.PokemonRepository
+import com.lucassimoesmartins.pokeapp.data.PokemonRepositoryImpl
+import com.lucassimoesmartins.pokeapp.data.remote.PokemonApiService
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+const val BASE_URL ="https://pokeapi.co/api/v2/"
+
+class AppContainer {
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val pokemonApi = retrofit.create(PokemonApiService::class.java)
+
+    val pokemonRepository: PokemonRepository by lazy {
+        PokemonRepositoryImpl(pokemonApi)
+    }
+}

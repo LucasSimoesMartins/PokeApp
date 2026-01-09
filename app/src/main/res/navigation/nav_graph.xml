@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.lucassimoesmartins.pokeapp.HomeFragment"
+        android:name="com.lucassimoesmartins.pokeapp.presentation.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.lucassimoesmartins.pokeapp.FavoritesFragment"
+        android:name="com.lucassimoesmartins.pokeapp.presentation.favorites.FavoritesFragment"
         android:label="FavoritesFragment"
         tools:layout="@layout/fragment_favorites" />
 </navigation>

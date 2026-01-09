@@ -2,4 +2,6 @@
     <string name="app_name">PokeApp</string>
     <string name="home">Home</string>
     <string name="favorites">Favorites</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="pokemon_image">Pokemon image</string>
 </resources>

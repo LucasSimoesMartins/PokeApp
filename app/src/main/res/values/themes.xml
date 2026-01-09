@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.PokeApp" parent="Theme.AppCompat.Light.NoActionBar" >
+    <style name="Theme.PokeApp" parent="Theme.MaterialComponents.DayNight.NoActionBar" >
         <item name="colorPrimary">@color/green_grass</item>
         <item name="colorPrimaryDark">@color/green_grass_dark</item>
         <item name="colorAccent">@color/blue_pokemon</item>
