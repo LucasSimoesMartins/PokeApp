@@ -41,6 +41,7 @@ android {
 
 dependencies {
     ksp(libs.glide.compiler)
+    implementation(libs.androidx.palette.ktx)
     implementation(libs.glide.core)
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.gson)
