@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.lucassimoesmartins.pokeapp.PokeApplication
 import com.lucassimoesmartins.pokeapp.R
 import com.lucassimoesmartins.pokeapp.databinding.FragmentHomeBinding
+import com.lucassimoesmartins.pokeapp.domain.model.Pokemon
 import com.lucassimoesmartins.pokeapp.domain.usecase.FetchPokemonListUseCase
 import com.lucassimoesmartins.pokeapp.presentation.PokemonAdapter
 
@@ -42,25 +43,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setupObservers() {
         viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is HomeState.Loading -> {
-                    binding.recyclerView.isVisible = false
-                    binding.progressBar.isVisible = true
-                    binding.txtErrorMessage.isVisible = false
-                }
-                is HomeState.Success -> {
-                    binding.recyclerView.isVisible = true
-                    binding.progressBar.isVisible = false
-                    binding.txtErrorMessage.isVisible = false
-                    adapter.submitList(state.list)
-                }
-                is HomeState.Error -> {
-                    binding.recyclerView.isVisible = false
-                    binding.progressBar.isVisible = false
-                    binding.txtErrorMessage.isVisible = true
-                    binding.txtErrorMessage.text = state.message ?: getString(R.string.something_went_wrong)
-                }
+                is HomeState.Loading -> showLoading()
+                is HomeState.Success -> showSuccess(state.list)
+                is HomeState.Error -> showError(state.message)
             }
         }
+    }
+
+    private fun showLoading() {
+        binding.recyclerView.isVisible = false
+        binding.progressBar.isVisible = true
+        binding.txtErrorMessage.isVisible = false
+    }
+
+    private fun showSuccess(list: List<Pokemon>) {
+        binding.recyclerView.isVisible = true
+        binding.progressBar.isVisible = false
+        binding.txtErrorMessage.isVisible = false
+        adapter.submitList(list)
+    }
+
+    private fun showError(message: String?) {
+        binding.recyclerView.isVisible = false
+        binding.progressBar.isVisible = false
+        binding.txtErrorMessage.isVisible = true
+        binding.txtErrorMessage.text = message ?: getString(R.string.something_went_wrong)
     }
 
     override fun onDestroyView() {

@@ -3,7 +3,6 @@ package com.lucassimoesmartins.pokeapp.presentation.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.lucassimoesmartins.pokeapp.domain.model.OperationResult
 import com.lucassimoesmartins.pokeapp.domain.usecase.FetchPokemonListUseCase
 
@@ -31,11 +30,5 @@ class HomeViewModel(private val fetchPokemonListUseCase: FetchPokemonListUseCase
                 }
             }
         }
-    }
-}
-@Suppress("UNCHECKED_CAST")
-class HomeViewModelFactory(private val useCase: FetchPokemonListUseCase) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return HomeViewModel(useCase) as T
     }
 }
