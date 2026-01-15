@@ -5,6 +5,9 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lucassimoesmartins.pokeapp.PokeApplication
 import com.lucassimoesmartins.pokeapp.R
@@ -12,6 +15,7 @@ import com.lucassimoesmartins.pokeapp.databinding.FragmentHomeBinding
 import com.lucassimoesmartins.pokeapp.domain.model.Pokemon
 import com.lucassimoesmartins.pokeapp.domain.usecase.FetchPokemonListUseCase
 import com.lucassimoesmartins.pokeapp.presentation.PokemonAdapter
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -41,11 +45,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setupObservers() {
-        viewModel.state.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is HomeState.Loading -> showLoading()
-                is HomeState.Success -> showSuccess(state.list)
-                is HomeState.Error -> showError(state.message)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect {
+                    when (it) {
+                        is HomeState.Loading -> showLoading()
+                        is HomeState.Success -> showSuccess(it.list)
+                        is HomeState.Error -> showError(it.message)
+                    }
+                }
             }
         }
     }
