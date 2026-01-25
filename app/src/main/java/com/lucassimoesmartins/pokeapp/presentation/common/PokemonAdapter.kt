@@ -1,4 +1,4 @@
-package com.lucassimoesmartins.pokeapp.presentation
+package com.lucassimoesmartins.pokeapp.presentation.common
 
 import android.graphics.Bitmap
 import android.graphics.Color

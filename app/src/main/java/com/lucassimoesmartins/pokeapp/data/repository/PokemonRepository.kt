@@ -1,4 +1,4 @@
-package com.lucassimoesmartins.pokeapp.data
+package com.lucassimoesmartins.pokeapp.data.repository
 
 import androidx.paging.PagingData
 import com.lucassimoesmartins.pokeapp.domain.model.Pokemon

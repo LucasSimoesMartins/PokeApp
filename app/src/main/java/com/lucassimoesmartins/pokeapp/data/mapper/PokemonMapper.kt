@@ -1,4 +1,4 @@
-package com.lucassimoesmartins.pokeapp.data
+package com.lucassimoesmartins.pokeapp.data.mapper
 
 import com.lucassimoesmartins.pokeapp.data.remote.PokemonResponse
 import com.lucassimoesmartins.pokeapp.domain.model.Pokemon

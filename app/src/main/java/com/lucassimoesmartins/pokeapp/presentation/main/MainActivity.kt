@@ -1,4 +1,4 @@
-package com.lucassimoesmartins.pokeapp.presentation
+package com.lucassimoesmartins.pokeapp.presentation.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

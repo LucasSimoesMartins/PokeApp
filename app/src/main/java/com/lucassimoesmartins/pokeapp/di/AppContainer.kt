@@ -1,7 +1,7 @@
 package com.lucassimoesmartins.pokeapp.di
 
-import com.lucassimoesmartins.pokeapp.data.PokemonRepository
-import com.lucassimoesmartins.pokeapp.data.PokemonRepositoryImpl
+import com.lucassimoesmartins.pokeapp.data.repository.PokemonRepository
+import com.lucassimoesmartins.pokeapp.data.repository.PokemonRepositoryImpl
 import com.lucassimoesmartins.pokeapp.data.remote.PokemonApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

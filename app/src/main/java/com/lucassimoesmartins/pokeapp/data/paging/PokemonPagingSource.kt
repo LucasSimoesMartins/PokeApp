@@ -1,8 +1,9 @@
-package com.lucassimoesmartins.pokeapp.data
+package com.lucassimoesmartins.pokeapp.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.lucassimoesmartins.pokeapp.data.remote.PokemonApiService
+import com.lucassimoesmartins.pokeapp.data.mapper.toDomain
 import com.lucassimoesmartins.pokeapp.domain.model.Pokemon
 import retrofit2.HttpException
 

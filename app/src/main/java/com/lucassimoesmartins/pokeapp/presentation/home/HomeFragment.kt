@@ -13,7 +13,7 @@ import com.lucassimoesmartins.pokeapp.PokeApplication
 import com.lucassimoesmartins.pokeapp.R
 import com.lucassimoesmartins.pokeapp.databinding.FragmentHomeBinding
 import com.lucassimoesmartins.pokeapp.domain.usecase.GetPokemonStreamUseCase
-import com.lucassimoesmartins.pokeapp.presentation.PokemonAdapter
+import com.lucassimoesmartins.pokeapp.presentation.common.PokemonAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

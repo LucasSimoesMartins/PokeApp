@@ -1,7 +1,7 @@
 package com.lucassimoesmartins.pokeapp.domain.usecase
 
 import androidx.paging.PagingData
-import com.lucassimoesmartins.pokeapp.data.PokemonRepository
+import com.lucassimoesmartins.pokeapp.data.repository.PokemonRepository
 import com.lucassimoesmartins.pokeapp.domain.model.Pokemon
 import kotlinx.coroutines.flow.Flow
 
