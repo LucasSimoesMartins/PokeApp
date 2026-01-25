@@ -1,14 +1,21 @@
 package com.lucassimoesmartins.pokeapp.data
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.lucassimoesmartins.pokeapp.data.remote.PokemonApiService
 import com.lucassimoesmartins.pokeapp.domain.model.Pokemon
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class PokemonRepositoryImpl(private val api: PokemonApiService) : PokemonRepository {
 
-    override fun fetchPokemonList(): Flow<List<Pokemon>> = flow {
-        val pokemonList = api.getPokemonList().toDomain()
-        emit(pokemonList)
+    override fun getPokemonStream(): Flow<PagingData<Pokemon>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { PokemonPagingSource(api) }
+        ).flow
     }
 }

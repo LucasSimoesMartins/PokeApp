@@ -10,12 +10,16 @@ const val BASE_URL ="https://pokeapi.co/api/v2/"
 
 class AppContainer {
 
-    private val retrofit = Retrofit.Builder()
+    private val retrofit: Retrofit by lazy {
+        Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+    }
 
-    private val pokemonApi = retrofit.create(PokemonApiService::class.java)
+    private val pokemonApi: PokemonApiService by lazy {
+        retrofit.create(PokemonApiService::class.java)
+    }
 
     val pokemonRepository: PokemonRepository by lazy {
         PokemonRepositoryImpl(pokemonApi)

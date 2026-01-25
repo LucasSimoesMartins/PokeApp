@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.lucassimoesmartins.pokeapp.PokeApplication
 import com.lucassimoesmartins.pokeapp.R
 import com.lucassimoesmartins.pokeapp.databinding.FragmentHomeBinding
-import com.lucassimoesmartins.pokeapp.domain.model.Pokemon
-import com.lucassimoesmartins.pokeapp.domain.usecase.FetchPokemonListUseCase
+import com.lucassimoesmartins.pokeapp.domain.usecase.GetPokemonStreamUseCase
 import com.lucassimoesmartins.pokeapp.presentation.PokemonAdapter
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -24,7 +24,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val viewModel: HomeViewModel by viewModels {
         val appContainer = (requireActivity().application as PokeApplication).appContainer
-        HomeViewModelFactory(FetchPokemonListUseCase(appContainer.pokemonRepository))
+        HomeViewModelFactory(GetPokemonStreamUseCase(appContainer.pokemonRepository))
     }
 
     private val adapter = PokemonAdapter()
@@ -34,9 +34,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         _binding = FragmentHomeBinding.bind(view)
 
         setupRecyclerView()
-        setupObservers()
+        setupListeners()
+        setupLoadStateObserver()
+        observePagingData()
 
-        viewModel.onAction(HomeAction.OnFetchPokemonList)
     }
 
     private fun setupRecyclerView() {
@@ -44,38 +45,37 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.recyclerView.adapter = adapter
     }
 
-    private fun setupObservers() {
+    private fun setupListeners() {
+        binding.btnRetry.setOnClickListener { adapter.retry() }
+    }
+
+    private fun observePagingData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect {
-                    when (it) {
-                        is HomeState.Loading -> showLoading()
-                        is HomeState.Success -> showSuccess(it.list)
-                        is HomeState.Error -> showError(it.message)
-                    }
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.pokemonPagingDataFlow.collectLatest { pagingData ->
+                    adapter.submitData(pagingData)
                 }
             }
         }
     }
 
-    private fun showLoading() {
-        binding.recyclerView.isVisible = false
-        binding.progressBar.isVisible = true
-        binding.txtErrorMessage.isVisible = false
-    }
+    private fun setupLoadStateObserver() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adapter.loadStateFlow.collect { loadStates ->
+                    val isInitialLoading = loadStates.refresh is androidx.paging.LoadState.Loading
+                    val errorState = loadStates.refresh as? androidx.paging.LoadState.Error
 
-    private fun showSuccess(list: List<Pokemon>) {
-        binding.recyclerView.isVisible = true
-        binding.progressBar.isVisible = false
-        binding.txtErrorMessage.isVisible = false
-        adapter.submitList(list)
-    }
-
-    private fun showError(message: String?) {
-        binding.recyclerView.isVisible = false
-        binding.progressBar.isVisible = false
-        binding.txtErrorMessage.isVisible = true
-        binding.txtErrorMessage.text = message ?: getString(R.string.something_went_wrong)
+                    binding.progressBar.isVisible = isInitialLoading
+                    binding.recyclerView.isVisible = !isInitialLoading && errorState == null
+                    binding.errorContainer.isVisible = errorState != null
+                    
+                    errorState?.let {
+                        binding.txtErrorMessage.text = it.error.localizedMessage ?: getString(R.string.something_went_wrong)
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

@@ -4,4 +4,6 @@
     <color name="green_grass_dark">#306F4C</color>
     <color name="yellow_pokemon">#FFCB05</color>
     <color name="blue_pokemon">#3C5AA6</color>
+    <color name="blue_sky">#8D9AFF</color>
+    <color name="blue_sky_dark">#110F45</color>
 </resources>
