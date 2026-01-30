@@ -15,6 +15,7 @@ glide = "4.16.0"
 ksp = "2.0.21-1.0.27"
 paletteKtx = "1.0.0"
 paging = "3.3.6"
+room = "2.8.4"
 
 [libraries]
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
@@ -33,6 +34,10 @@ glide-core = { group = "com.github.bumptech.glide", name = "glide", version.ref 
 glide-compiler = { group = "com.github.bumptech.glide", name = "ksp", version.ref = "glide" }
 androidx-palette-ktx = { module = "androidx.palette:palette-ktx", version.ref = "paletteKtx" }
 androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

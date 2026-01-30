@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.lucassimoesmartins.pokeapp.PokeApplication
 import com.lucassimoesmartins.pokeapp.R
 import com.lucassimoesmartins.pokeapp.databinding.FragmentHomeBinding
-import com.lucassimoesmartins.pokeapp.domain.usecase.GetPokemonStreamUseCase
 import com.lucassimoesmartins.pokeapp.presentation.common.PokemonAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -24,10 +23,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val viewModel: HomeViewModel by viewModels {
         val appContainer = (requireActivity().application as PokeApplication).appContainer
-        HomeViewModelFactory(GetPokemonStreamUseCase(appContainer.pokemonRepository))
+        HomeViewModelFactory(
+            getPokemonStreamUseCase = appContainer.getPokemonStreamUseCase,
+            saveFavoriteUseCase = appContainer.saveFavoriteUseCase,
+            getFavoritesStreamUseCase = appContainer.getFavoritesStreamUseCase,
+            removeFavoriteUseCase = appContainer.removeFavoriteUseCase
+        )
     }
 
-    private val adapter = PokemonAdapter()
+    private val adapter = PokemonAdapter { pokemon ->
+        viewModel.onAction(HomeAction.OnFavoriteClick(pokemon))
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

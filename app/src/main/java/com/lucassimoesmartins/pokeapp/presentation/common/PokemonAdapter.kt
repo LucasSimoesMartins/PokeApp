@@ -17,7 +17,9 @@ import com.lucassimoesmartins.pokeapp.R
 import com.lucassimoesmartins.pokeapp.databinding.ItemPokemonBinding
 import com.lucassimoesmartins.pokeapp.domain.model.Pokemon
 
-class PokemonAdapter : PagingDataAdapter<Pokemon, PokemonAdapter.PokemonViewHolder>(PokemonDiffCallback) {
+class PokemonAdapter(
+    private val onFavoriteClick: (Pokemon) -> Unit
+) : PagingDataAdapter<Pokemon, PokemonAdapter.PokemonViewHolder>(PokemonDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         val binding = ItemPokemonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,13 +28,20 @@ class PokemonAdapter : PagingDataAdapter<Pokemon, PokemonAdapter.PokemonViewHold
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         getItem(position)?.let { pokemon ->
-            holder.bind(pokemon)
+            holder.bind(pokemon, onFavoriteClick)
         }
     }
 
     class PokemonViewHolder(private val binding: ItemPokemonBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(pokemon: Pokemon) {
+        fun bind(pokemon: Pokemon, onFavoriteClick: (Pokemon) -> Unit) {
             binding.txtName.text = pokemon.name
+
+            val favoriteIcon = if (pokemon.isFavorite) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline
+            binding.imgFavorite.setImageResource(favoriteIcon)
+
+            binding.imgFavorite.setOnClickListener {
+                onFavoriteClick(pokemon)
+            }
 
             Glide.with(binding.root.context)
                 .asBitmap()
